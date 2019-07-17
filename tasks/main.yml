@@ -6,4 +6,6 @@
   when: ansible_os_family == 'FreeBSD'
 
 - include: hostname.yml
+# Docker does not let you modify /etc/hosts
 - include: hosts.yml
+  when: ansible_virtualization_type != 'docker'
