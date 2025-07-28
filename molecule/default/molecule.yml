@@ -2,19 +2,40 @@
 dependency:
   name: galaxy
 driver:
-  name: docker
-lint:
-  name: yamllint
+  name: podman
 platforms:
   - name: test.mydomain.net
-    image: "ubuntu:bionic"
+    image: geerlingguy/docker-ubuntu2004-ansible:latest
+    pre_build_image: true
     capabilities:
       - SYS_ADMIN
+    privileged: true
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
+  config_options:
+    defaults:
+      interpreter_python: auto_silent
+      callback_whitelist: profile_tasks, timer, yaml
+    ssh_connection:
+      pipelining: false
+  inventory:
+    host_vars:
+      test.mydomain.net:
+        ansible_connection: podman
 verifier:
-  name: inspec
-  lint:
-    name: rubocop
+  name: ansible
+
+scenario:
+  test_sequence:
+    - dependency
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
