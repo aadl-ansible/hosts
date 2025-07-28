@@ -2,10 +2,12 @@
 # tasks file for hosts
 
 - name: Include OS-specific variables.
-  include_vars: "{{ ansible_os_family }}.yml"
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
   when: ansible_os_family == 'FreeBSD'
 
-- include: hostname.yml
+- name: Set hostname
+  ansible.builtin.include_tasks: hostname.yml
 # Docker does not let you modify /etc/hosts
-- include: hosts.yml
+- name: Create /etc/hosts file from template
+  ansible.builtin.include_tasks: hosts.yml
   when: ansible_virtualization_type != 'docker'

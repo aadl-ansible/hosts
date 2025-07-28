@@ -4,7 +4,9 @@ galaxy_info:
   description: Manages /etc/hosts and /etc/hostname with templates.
   company: Libraries.fi / Helsinki city library
   license: MIT
-  min_ansible_version: 1.5
+  min_ansible_version: '2.9'
+  role_name: hosts
+  namespace: aadl
   platforms:
     - name: EL
       versions:
