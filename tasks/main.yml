@@ -10,4 +10,6 @@
 # Docker does not let you modify /etc/hosts
 - name: Create /etc/hosts file from template
   ansible.builtin.include_tasks: hosts.yml
-  when: ansible_virtualization_type != 'docker'
+  when:
+    - ansible_virtualization_type != 'docker'
+    - ansible_virtualization_type != 'podman'
