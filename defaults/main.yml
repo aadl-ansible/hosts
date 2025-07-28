@@ -3,8 +3,18 @@
 hosts_ipv4_loopback_hosts:
   address: 127.0.0.1
   hostnames:
-    - localhost.localdomain
     - localhost
+    - localhost.localdomain
+    - localhost4
+    - localhost4.localdomain4
+
+hosts_ipv6_loopback_hosts:
+  address: "::1"
+  hostnames:
+    - localhost
+    - localhost.localdomain
+    - localhost6
+    - localhost6.localdomain6
 
 hosts_default_ipv4_hosts:
   address: "{{ ansible_default_ipv4.address }}"
@@ -12,8 +22,15 @@ hosts_default_ipv4_hosts:
     - "{{ inventory_hostname }}"
     - "{{ inventory_hostname_short }}"
 
+hosts_default_ipv6_hosts:
+  address: "{{ ansible_default_ipv6.address }}"
+  hostnames:
+    - "{{ inventory_hostname }}"
+    - "{{ inventory_hostname_short }}"
+
 hosts_default_hosts:
   - "{{ hosts_ipv4_loopback_hosts }}"
+  - "{{ hosts_ipv6_loopback_hosts }}"
   - "{{ hosts_default_ipv4_hosts }}"
 
 hosts_additional_hosts: []
